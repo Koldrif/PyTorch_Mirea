@@ -4,11 +4,9 @@ import numpy as np
 
 def loss(X, y, model, batch_size=None):
 
-    if batch_size is None:
-        Xb, yb = X, y
-    else:
-        ri = np.random.permutation(X.shape[0])[:batch_size]
-        Xb, yb = X[ri], y[ri]
+
+    ri = np.random.permutation(X.shape[0])[:batch_size]
+    Xb, yb = X[ri], y[ri]
     inputs = [list(map(Value, xrow)) for xrow in Xb]
 
     # forward the model to get scores
