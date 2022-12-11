@@ -3,10 +3,11 @@ from autograd import *
 import numpy as np
 
 def loss(X, y, model, batch_size=None):
-
-
-    ri = np.random.permutation(X.shape[0])[:batch_size]
-    Xb, yb = X[ri], y[ri]
+    if batch_size is None:
+        Xb, yb = X, y
+    else:
+        ri = np.random.permutation(X.shape[0])[:batch_size]
+        Xb, yb = X[ri], y[ri]
     inputs = [list(map(Value, xrow)) for xrow in Xb]
 
     # forward the model to get scores
@@ -47,7 +48,8 @@ for k in range(20):
     total_loss.backward()
 
     # backward (zero_grad + backward)
-    ...
+    nn.zero_grad()
+    total_loss.backward()
 
     # update
     learning_rate = 1.0 - 0.9*k/100
